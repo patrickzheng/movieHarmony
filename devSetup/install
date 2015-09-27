@@ -1,0 +1,12 @@
+# from the remote master ubuntu node
+
+sudo apt-get install ipython-notebook
+sudo chmod +w /usr/local/lib/python2.7/dist-packages
+sudo pip install certifi
+sudo pip install jsonschema
+
+IPYTHON_OPTS="notebook" pyspark --master spark://ip-172-31-32-151:7077 --executor-memory 6400M --driver-memory 6400M
+
+# on local machine, port forwarding
+
+ssh -i ~/.ssh/<your pem file> -N -f -L localhost:7778:localhost:8888 ubuntu@public_dns
