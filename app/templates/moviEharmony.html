@@ -1,0 +1,215 @@
+<html>
+<head>
+    <title>moviEharmony by Patrick Zheng</title>
+
+    <link rel="stylesheet" type="text/css" href="static/css/screen.css">
+    <link rel="stylesheet" type="text/css" href="static/css/css.css">
+    <link rel="stylesheet" href="static/font-awesome/font-awesome.css">
+    <link rel="stylesheet" href="static/collageplus/css/transitions.css">
+    <!-- <link rel="stylesheet" href="css/bootstrap.min.css"> -->
+    <link rel="stylesheet" href="static/css/bootstrap-slider.css">
+
+    <!-- Other Stuff -->
+
+    <!-- <script src="js/bootstrap.min.js"></script> -->
+    <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+
+    <script type="text/javascript" src="static/js/bootstrap-slider.js"></script>
+
+    <script type="text/javascript" src="static/js/index.js"></script>
+
+    <script type="text/javascript" src="static/collageplus/jquery.collagePlus.min.js"></script>
+    <script type="text/javascript" src="static/collageplus/extras/jquery.removeWhitespace.min.js"></script>
+    <script type="text/javascript" src="static/collageplus/extras/jquery.collageCaption.min.js"></script>
+
+    <script type="text/javascript">
+    $( document ).ready(function() {
+	
+    });
+
+    // All images need to be loaded for this plugin to work so
+    // we end up waiting for the whole window to load in this example
+    $(window).load(function () {
+        $(document).ready(function(){
+            collage();
+	    $('.Collage').collagePlus();
+            // $('.Collage').collageCaption();
+        });
+    });
+    // Here we apply the actual CollagePlus plugin
+    function collage() {
+        $('.Collage').collagePlus(
+            {
+                // 'fadeSpeed'     : 2000,
+		//'direction'       : 'vertical' 		,
+		'effect'          : 'default',		
+		'direction'       : 'horizontal'		,
+                'targetHeight'  : 100
+            }
+        );
+    };
+    // This is just for the case that the browser window is resized
+    var resizeTimer = null;
+    $(window).bind('resize', function() {
+        // hide all the images until we resize them
+        //$('.Collage .Image_Wrapper').css("opacity", 0);
+        // set a timer to re-apply the plugin
+        //if (resizeTimer) clearTimeout(resizeTimer);
+        //resizeTimer = setTimeout(collage, 200);
+    });
+
+    </script>
+
+
+                <script src="./static/highmaps/js/highmaps.js"></script>
+                <script src="./static/highmaps/js/modules/data.js"></script>
+                <script src="./static/highmaps/js/modules/exporting.js"></script>
+                <script src="http://code.highcharts.com/mapdata/countries/us/us-all-all.js"></script>
+
+<link rel="alternate" type="application/rss+xml" title="moviEharmony by Patrick Zheng" href="http://www.moviEharmony.website/rss/">
+<link rel="canonical" href="http://www.moviEharmony.website/">
+</head>
+
+<body class="home-template">
+<header id="site-head" style="background-image: url(static/family-in-living-room-4-netflix-logo-on-red.jpg)">
+    <div class="vertical">
+        <div id="site-head-content" class="inner">
+
+
+            <h1 class="blog-title">moviEharmony</h1>
+            <h2 class="blog-description">by <b>Patrick Zheng</b>,<br>
+            a data engineering fellow at insight data science</h2>
+
+            <a class="btn" url="/moviesearch/">MovieSearch</a>
+<!--
+            <a class="btn" url="/moviemap/">MovieMap</a>
+            <a class="btn" url="/movietrends/">MovieTrends</a>
+		<a class="btn" url="/about/">About</a>
+-->
+            <div>
+            <p>moviEharmony batch processed<br>
+            the massive amazon review database<br>
+            so we can give better recommendation<br>
+            base on our user's taste<br>
+            </p>
+            </div>
+            <div id="realtimecounter" src="http://www.moviEharmony.website:5000/moviesearch/_count">
+                Number of reviews processed: 4,607,088
+            </div>
+        </div>
+    </div>
+
+</header>
+
+<main class="content" role="main">
+
+    <div style="display: block" class="fixed-nav">
+        <a class="fn-item" url="/moviesearch/">MovieSearch</a>
+        <a class="fn-item" url="/moviemap/">MovieMap</a>
+        <a class="fn-item" url="/movietrends/">MovieTrends</a>
+	<a class="fn-item" url="/about/">About</a>
+    </div>
+
+    <div class="post-holder">
+
+            <article item_index="1" class="post" url="/moviesearch/">
+
+            <header class="post-header">
+
+                <h2 class="post-title">MovieSearch</h2>
+
+            </header>
+            <section class="post-content">
+                Find good movies for two!<br>
+<table>
+    <tr>
+    <td>
+	<b>User1 ID</b><input type="text" value="1573033844"><br>
+        <b>Humor</b> <input type="text" class="span2" value="" data-slider-min="0" data-slider-max="100" data-slider-step="5" data-slider-value="50" data-slider-id="RC01" id="R01" data-slider-tooltip="hide" data-slider-handle="round" /><br>
+        <b>Tears</b> <input type="text" class="span2" value="" data-slider-min="0" data-slider-max="100" data-slider-step="5" data-slider-value="50" data-slider-id="GC01" id="G01" data-slider-tooltip="hide" data-slider-handle="round" /><br>
+        <b>Action</b> <input type="text" class="span2" value="" data-slider-min="0" data-slider-max="100" data-slider-step="5" data-slider-value="50" data-slider-id="BC01" id="B01" data-slider-tooltip="hide" data-slider-handle="round" /><br>
+        <div id="RGB01"></div>
+    </td>
+    <td>
+           <b>Power</b> <input type="text" class="span2" value="" data-slider-min="0" data-slider-max="100" data-slider-step="5" data-slider-value="50" data-slider-id="PC02" id="P02" data-slider-tooltip="hide" data-slider-handle="round" />
+    </td>
+    <td>
+	<b>User2 ID</b><input type="text" value="1587946258"><br>
+        <b>Humor</b> <input type="text" class="span2" value="" data-slider-min="0" data-slider-max="100" data-slider-step="5" data-slider-value="50" data-slider-id="RC02" id="R02" data-slider-tooltip="hide" data-slider-handle="round" /><br>
+        <b>Tears</b> <input type="text" class="span2" value="" data-slider-min="0" data-slider-max="100" data-slider-step="5" data-slider-value="50" data-slider-id="GC02" id="G02" data-slider-tooltip="hide" data-slider-handle="round" /><br>
+        <b>Action</b> <input type="text" class="span2" value="" data-slider-min="0" data-slider-max="100" data-slider-step="5" data-slider-value="50" data-slider-id="BC02" id="B02" data-slider-tooltip="hide" data-slider-handle="round" /><br>
+        <div id="RGB02"></div>
+    </td>
+    </tr>
+</table>
+                <div class="Collage"></div>
+            </section>
+        </article>
+        <div style="border-top-color: rgb(242, 239, 232); left: 6%; display: block;" class="post-after"></div>
+    </div>
+
+
+</main>
+
+    <footer class="site-footer">
+        <div class="inner">
+            "I am the world's greatest."
+        </div>
+    </footer>
+
+<script type="text/javascript">
+
+
+
+$('.Collage').removeWhitespace().collagePlus(
+    {
+        //'targetHeight' : 100,
+        'targetHeight' : 100
+    }
+);
+
+var loadTimer = null;
+
+var RGBChange = function() {
+    $('#RGB01').css('background', 'rgb('+r01.getValue()+','+g01.getValue()+','+b01.getValue()+')');
+    $('#RGB02').css('background', 'rgb('+r02.getValue()+','+g02.getValue()+','+b02.getValue()+')');
+    loadthisurl = "/moviesearch";
+
+    //if (loadTimer) clearTimeout(loadTimer);
+    //loadTimer = setTimeout(function() {$('.Collage .Image_Wrapper').css("opacity", 0); $('.Collage').load(loadthisurl);} , 500);
+    loadTimer = setTimeout(function() {$('.Collage .Image_Wrapper').css("opacity", 0); $('.Collage').load(loadthisurl);} , 500);
+    //$('.Collage').load(loadthisurl);
+    //alert("loading");
+    $('.Collage').collagePlus();
+};
+
+var loadthisurl = "";
+
+var r01 = $('#R01').slider()
+        .on('slide', RGBChange)
+        .data('slider');
+var g01 = $('#G01').slider()
+        .on('slide', RGBChange)
+        .data('slider');
+var b01 = $('#B01').slider()
+        .on('slide', RGBChange)
+        .data('slider');
+
+var r02 = $('#R02').slider()
+        .on('slide', RGBChange)
+        .data('slider');
+var g02 = $('#G02').slider()
+        .on('slide', RGBChange)
+        .data('slider');
+var b02 = $('#B02').slider()
+        .on('slide', RGBChange)
+        .data('slider');
+var p02 = $('#P02').slider()
+        .on('slide', RGBChange)
+        .data('slider');
+
+RGBChange();
+
+</script>
+
+</body></html>

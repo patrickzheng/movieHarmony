@@ -1,0 +1,524 @@
+
+<!-- saved from url=(0065)file:///Users/brian/GitHub/Devel/InLivingColor/website/index.html -->
+<html>
+
+<head>
+
+    <title>InLivingColor by Brian Cruz</title>
+
+
+    <link rel="stylesheet" type="text/css" href="static/css/screen.css">
+    <link rel="stylesheet" type="text/css" href="static/css/css.css">
+    <link rel="stylesheet" href="static/font-awesome/font-awesome.css">
+    <link rel="stylesheet" href="static/collageplus/css/transitions.css">
+    <!-- <link rel="stylesheet" href="css/bootstrap.min.css"> -->
+    <link rel="stylesheet" href="static/css/bootstrap-slider.css">
+
+    <!-- Other Stuff -->
+
+    <!-- <script src="js/bootstrap.min.js"></script> -->
+    <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+
+    <script type="text/javascript" src="static/js/bootstrap-slider.js"></script>
+
+    <script type="text/javascript" src="static/js/index.js"></script>
+
+    <script type="text/javascript" src="static/collageplus/jquery.collagePlus.min.js"></script>
+    <script type="text/javascript" src="static/collageplus/extras/jquery.removeWhitespace.min.js"></script>
+    <script type="text/javascript" src="static/collageplus/extras/jquery.collageCaption.min.js"></script>
+
+
+
+
+    <script type="text/javascript">
+    $( document ).ready(function() {
+        // collagePlus-ify it!
+        // $('.Collage').collageCaption();
+        // $('.color').colorPicker(); // that's it
+
+
+
+        // REAL TIME UPDATE OF IMAGE COUNT
+
+        numberofimages = 1444444;
+
+        function numberWithCommas(x) {
+            return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+        }
+
+        // setInterval(function() {
+        //     numberofimages += 13;
+        //     $("#realtimecounter").html("Number of images: "+
+        //                                numberWithCommas(numberofimages));
+        // }, 5 * 100);
+    });
+
+
+
+    // All images need to be loaded for this plugin to work so
+    // we end up waiting for the whole window to load in this example
+    $(window).load(function () {
+        $(document).ready(function(){
+            collage();
+            // $('.Collage').collageCaption();
+        });
+    });
+    // Here we apply the actual CollagePlus plugin
+    function collage() {
+        $('.Collage').collagePlus(
+            {
+                // 'fadeSpeed'     : 2000,
+                'targetHeight'  : 100
+            }
+        );
+    };
+    // This is just for the case that the browser window is resized
+    var resizeTimer = null;
+    $(window).bind('resize', function() {
+        // hide all the images until we resize them
+        $('.Collage .Image_Wrapper').css("opacity", 0);
+        // set a timer to re-apply the plugin
+        if (resizeTimer) clearTimeout(resizeTimer);
+        resizeTimer = setTimeout(collage, 200);
+    });
+
+    </script>
+
+
+                <script src="./static/highmaps/js/highmaps.js"></script>
+                <script src="./static/highmaps/js/modules/data.js"></script>
+                <script src="./static/highmaps/js/modules/exporting.js"></script>
+                <script src="http://code.highcharts.com/mapdata/countries/us/us-all-all.js"></script>
+
+        <script type="text/javascript">
+$(function () {
+
+
+
+    /*
+    Data parsed from http://www.bls.gov/lau/#tables
+
+    1. Go to http://www.bls.gov/lau/laucntycur14.txt (or similar, updated datasets)
+    2. In the Chrome Developer tools console, run this code:
+       copy(JSON.stringify(document.body.innerHTML.split('\n').filter(function (s) { return s.indexOf('Feb-14') !== -1; }).map(function (row) { row = row.split('|'); return { code: 'us-' + row[3].trim().slice(-2).toLowerCase() + '-' + row[2].trim(), name: row[3].trim(), value: parseFloat(row[8]) }; })))
+    3. The data is now on your clipboard, paste it below
+    */
+
+    var data = {{ highmapsdata | tojson | safe }},
+        countiesMap = Highcharts.geojson(Highcharts.maps['countries/us/us-all-all']),
+        lines = Highcharts.geojson(Highcharts.maps['countries/us/us-all-all'], 'mapline'),
+        options;
+
+    // Add state acronym for tooltip
+    Highcharts.each(countiesMap, function (mapPoint) {
+        mapPoint.name = mapPoint.name + ', ' + mapPoint.properties['hc-key'].substr(3, 2);
+    });
+
+    options = {
+        chart : {
+            borderWidth : 1,
+            marginRight: 50 // for the legend
+        },
+
+        title : {
+            text : 'Number of Flickr Photos Processed'
+        },
+
+        legend: {
+            title: {
+                text: 'Number of<br>Flickr Photos',
+                style: {
+                    color: (Highcharts.theme && Highcharts.theme.textColor) || 'black'
+                }
+            },
+            layout: 'vertical',
+            align: 'right',
+            floating: true,
+            valueDecimals: 0,
+            valueSuffix: '',
+            backgroundColor: (Highcharts.theme && Highcharts.theme.legendBackgroundColor) || 'rgba(255, 255, 255, 0.85)',
+            symbolRadius: 0,
+            symbolHeight: 14
+        },
+
+        mapNavigation: {
+            enabled: true
+        },
+
+        colorAxis: {
+            min: 0,
+            max: 1000
+        //     dataClasses: [{
+        //         from: 0,
+        //         to: 2,
+        //         color: "#F1EEF6"
+        //     }, {
+        //         from: 2,
+        //         to: 4,
+        //         color: "#D4B9DA"
+        //     }, {
+        //         from: 4,
+        //         to: 6,
+        //         color: "#C994C7"
+        //     }, {
+        //         from: 6,
+        //         to: 8,
+        //         color: "#DF65B0"
+        //     }, {
+        //         from: 8,
+        //         to: 10,
+        //         color: "#DD1C77"
+        //     }, {
+        //         from: 10,
+        //         color: "#980043"
+        //     }]
+        },
+
+        plotOptions: {
+            mapline: {
+                showInLegend: false,
+                enableMouseTracking: false
+            }
+        },
+
+        series : [{
+            mapData : countiesMap,
+            data: data,
+            joinBy: ['hc-key', 'code'],
+            name: 'Photos processed',
+            tooltip: {
+                valueSuffix: ''
+            },
+            borderWidth: 0.5,
+            states: {
+                hover: {
+                    color: '#bada55'
+                }
+            }
+        }, {
+            type: 'mapline',
+            name: 'State borders',
+            data: [lines[0]],
+            color: 'white'
+        }, {
+            type: 'mapline',
+            name: 'Separator',
+            data: [lines[1]],
+            color: 'gray'
+        }]
+    };
+
+    // Instansiate the map
+    $('#container').highcharts('Map', options);
+});
+        </script>
+
+<link rel="alternate" type="application/rss+xml" title="InLivingColor by Brian Cruz" href="http://inlivingcolor.website/rss/">
+<link rel="canonical" href="http://inlivingcolor.website/">
+</head>
+
+<body class="home-template"><header id="site-head" style="background-image: url(static/mexico-irapuato.jpg)">
+    <div class="vertical">
+        <div id="site-head-content" class="inner">
+
+
+            <h1 class="blog-title"><img src="static/header.png"></h1>
+            <h2 class="blog-description">by brian cruz,<br>
+            a data engineering fellow at insight data science</h2>
+
+            <a class="btn" url="/colorsearch/">ColorSearch</a>
+            <a class="btn" url="/colormap/">ColorMap</a>
+<!--             <a class="btn" url="/colortrends/">ColorTrends</a>
+            <a class="btn" url="/colorfun/">ColorFun</a>
+            <a class="btn" url="/aboutinlivingcolor/">About InLivingColor</a>
+            <a class="btn" url="/aboutme/">About Me</a>
+ -->            <div>
+            <p>InLivingColor continuously crawls<br>
+            the massive database of images at Flickr<br>
+            so we can understand the world around us,<br>
+            in terms of color.</p>
+            </div>
+<!--             <div id="realtimecounter">
+                Number of images: 1,352,545
+            </div>
+ -->        </div>
+    </div>
+
+</header>
+
+
+<main class="content" role="main">
+
+    <div style="display: block" class="fixed-nav">
+        <a class="fn-item" url="/colorsearch/">ColorSearch</a>
+        <a class="fn-item" url="/colormap/">ColorMap</a>
+<!--         <a class="fn-item" url="/colortrends/">ColorTrends</a>
+        <a class="fn-item" url="/colorfun/">ColorFun</a>
+        <a class="fn-item" url="/aboutinlivingcolor/">About InLivingColor</a>
+        <a class="fn-item" url="/aboutme/">About Me</a>
+ -->    </div>
+
+
+
+    <div class="post-holder">
+
+            <article item_index="1" class="post" url="/colorsearch/">
+
+            <header class="post-header">
+
+                <h2 class="post-title">ColorSearch</h2>
+
+            </header>
+            <section class="post-content">
+                Choose a color or three!<br>
+<table>
+    <tr>
+    <td>
+        <b>R</b> <input type="text" class="span2" value="" data-slider-min="0" data-slider-max="255" data-slider-step="1" data-slider-value="160" data-slider-id="RC01" id="R01" data-slider-tooltip="hide" data-slider-handle="round" /><br>
+        <b>G</b> <input type="text" class="span2" value="" data-slider-min="0" data-slider-max="255" data-slider-step="1" data-slider-value="200" data-slider-id="GC01" id="G01" data-slider-tooltip="hide" data-slider-handle="round" /><br>
+        <b>B</b> <input type="text" class="span2" value="" data-slider-min="0" data-slider-max="255" data-slider-step="1" data-slider-value="20" data-slider-id="BC01" id="B01" data-slider-tooltip="hide" data-slider-handle="round" /><br>
+        <b>P</b> <input type="text" class="span2" value="" data-slider-min="0" data-slider-max="100" data-slider-step="1" data-slider-value="100" data-slider-id="PC01" id="P01" data-slider-tooltip="hide" data-slider-handle="round" />
+        <div id="RGB01"></div>
+   </td>
+   <td>
+        <b>R</b> <input type="text" class="span2" value="" data-slider-min="0" data-slider-max="255" data-slider-step="1" data-slider-value="80" data-slider-id="RC02" id="R02" data-slider-tooltip="hide" data-slider-handle="round" /><br>
+        <b>G</b> <input type="text" class="span2" value="" data-slider-min="0" data-slider-max="255" data-slider-step="1" data-slider-value="120" data-slider-id="GC02" id="G02" data-slider-tooltip="hide" data-slider-handle="round" /><br>
+        <b>B</b> <input type="text" class="span2" value="" data-slider-min="0" data-slider-max="255" data-slider-step="1" data-slider-value="20" data-slider-id="BC02" id="B02" data-slider-tooltip="hide" data-slider-handle="round" /><br>
+        <b>P</b> <input type="text" class="span2" value="" data-slider-min="0" data-slider-max="100" data-slider-step="1" data-slider-value="0" data-slider-id="PC02" id="P02" data-slider-tooltip="hide" data-slider-handle="round" />
+        <div id="RGB02"></div>
+    </td>
+    <td>
+
+        <b>R</b> <input type="text" class="span2" value="" data-slider-min="0" data-slider-max="255" data-slider-step="1" data-slider-value="80" data-slider-id="RC03" id="R03" data-slider-tooltip="hide" data-slider-handle="round" /><br>
+        <b>G</b> <input type="text" class="span2" value="" data-slider-min="0" data-slider-max="255" data-slider-step="1" data-slider-value="120" data-slider-id="GC03" id="G03" data-slider-tooltip="hide" data-slider-handle="round" /><br>
+        <b>B</b> <input type="text" class="span2" value="" data-slider-min="0" data-slider-max="255" data-slider-step="1" data-slider-value="20" data-slider-id="BC03" id="B03" data-slider-tooltip="hide" data-slider-handle="round" /><br>
+        <b>P</b> <input type="text" class="span2" value="" data-slider-min="0" data-slider-max="100" data-slider-step="1" data-slider-value="0" data-slider-id="PC03" id="P03" data-slider-tooltip="hide" data-slider-handle="round" />
+        <div id="RGB03"></div>
+    </td>
+    </tr>
+</table>
+                <div class="Collage">
+<img src="https://s3-us-west-1.amazonaws.com/inlivingcolor/geotagged/thumbs/110364485.jpg" width=240 height=163><img src="https://s3-us-west-1.amazonaws.com/inlivingcolor/geotagged/thumbs/17067163907.jpg" width=240 height=240><img src="https://s3-us-west-1.amazonaws.com/inlivingcolor/geotagged/thumbs/107963169.jpg" width=240 height=180><img src="https://s3-us-west-1.amazonaws.com/inlivingcolor/geotagged/thumbs/17538131081.jpg" width=300 height=300><img src="https://s3-us-west-1.amazonaws.com/inlivingcolor/geotagged/thumbs/17848432638.jpg" width=300 height=199><img src="https://s3-us-west-1.amazonaws.com/inlivingcolor/geotagged/thumbs/16885219548.jpg" width=240 height=180><img src="https://s3-us-west-1.amazonaws.com/inlivingcolor/geotagged/thumbs/149490130.jpg" width=180 height=240><img src="https://s3-us-west-1.amazonaws.com/inlivingcolor/geotagged/thumbs/15928624038.jpg" width=240 height=160><img src="https://s3-us-west-1.amazonaws.com/inlivingcolor/geotagged/thumbs/15640086183.jpg" width=240 height=160><img src="https://s3-us-west-1.amazonaws.com/inlivingcolor/geotagged/thumbs/16338100097.jpg" width=240 height=240><img src="https://s3-us-west-1.amazonaws.com/inlivingcolor/geotagged/thumbs/15719581581.jpg" width=240 height=160><img src="https://s3-us-west-1.amazonaws.com/inlivingcolor/geotagged/thumbs/18514777192.jpg" width=240 height=171><img src="https://s3-us-west-1.amazonaws.com/inlivingcolor/geotagged/thumbs/60865933.jpg" width=240 height=181><img src="https://s3-us-west-1.amazonaws.com/inlivingcolor/geotagged/thumbs/17896314504.jpg" width=240 height=150><img src="https://s3-us-west-1.amazonaws.com/inlivingcolor/geotagged/thumbs/17268258094.jpg" width=300 height=225><img src="https://s3-us-west-1.amazonaws.com/inlivingcolor/geotagged/thumbs/18032616701.jpg" width=300 height=199><img src="https://s3-us-west-1.amazonaws.com/inlivingcolor/geotagged/thumbs/17693590350.jpg" width=300 height=300><img src="https://s3-us-west-1.amazonaws.com/inlivingcolor/geotagged/thumbs/16073766849.jpg" width=240 height=160><img src="https://s3-us-west-1.amazonaws.com/inlivingcolor/geotagged/thumbs/16273482998.jpg" width=180 height=240><img src="https://s3-us-west-1.amazonaws.com/inlivingcolor/geotagged/thumbs/89608304.jpg" width=240 height=180><img src="https://s3-us-west-1.amazonaws.com/inlivingcolor/geotagged/thumbs/17497833403.jpg" width=160 height=240><img src="https://s3-us-west-1.amazonaws.com/inlivingcolor/geotagged/thumbs/18119341291.jpg" width=240 height=160><img src="https://s3-us-west-1.amazonaws.com/inlivingcolor/geotagged/thumbs/17777342699.jpg" width=240 height=160><img src="https://s3-us-west-1.amazonaws.com/inlivingcolor/geotagged/thumbs/107963834.jpg" width=240 height=180><img src="https://s3-us-west-1.amazonaws.com/inlivingcolor/geotagged/thumbs/17845539169.jpg" width=240 height=160><img src="https://s3-us-west-1.amazonaws.com/inlivingcolor/geotagged/thumbs/17538107531.jpg" width=240 height=240><img src="https://s3-us-west-1.amazonaws.com/inlivingcolor/geotagged/thumbs/16541116057.jpg" width=180 height=240><img src="https://s3-us-west-1.amazonaws.com/inlivingcolor/geotagged/thumbs/16639720852.jpg" width=240 height=180><img src="https://s3-us-west-1.amazonaws.com/inlivingcolor/geotagged/thumbs/48187420.jpg" width=240 height=180><img src="https://s3-us-west-1.amazonaws.com/inlivingcolor/geotagged/thumbs/16837932700.jpg" width=240 height=240><img src="https://s3-us-west-1.amazonaws.com/inlivingcolor/geotagged/thumbs/15723085262.jpg" width=240 height=160><img src="https://s3-us-west-1.amazonaws.com/inlivingcolor/geotagged/thumbs/15576102419.jpg" width=240 height=160><img src="https://s3-us-west-1.amazonaws.com/inlivingcolor/geotagged/thumbs/15727065721.jpg" width=240 height=160><img src="https://s3-us-west-1.amazonaws.com/inlivingcolor/geotagged/thumbs/88561169.jpg" width=240 height=160><img src="https://s3-us-west-1.amazonaws.com/inlivingcolor/geotagged/thumbs/35812554.jpg" width=240 height=240><img src="https://s3-us-west-1.amazonaws.com/inlivingcolor/geotagged/thumbs/16126062954.jpg" width=180 height=240><img src="https://s3-us-west-1.amazonaws.com/inlivingcolor/geotagged/thumbs/17538304895.jpg" width=240 height=240><img src="https://s3-us-west-1.amazonaws.com/inlivingcolor/geotagged/thumbs/16675759843.jpg" width=240 height=180><img src="https://s3-us-west-1.amazonaws.com/inlivingcolor/geotagged/thumbs/17227081998.jpg" width=300 height=300><img src="https://s3-us-west-1.amazonaws.com/inlivingcolor/geotagged/thumbs/16754419946.jpg" width=240 height=180><img src="https://s3-us-west-1.amazonaws.com/inlivingcolor/geotagged/thumbs/15276036503.jpg" width=240 height=180><img src="https://s3-us-west-1.amazonaws.com/inlivingcolor/geotagged/thumbs/16142550518.jpg" width=240 height=180><img src="https://s3-us-west-1.amazonaws.com/inlivingcolor/geotagged/thumbs/17130227957.jpg" width=240 height=150><img src="https://s3-us-west-1.amazonaws.com/inlivingcolor/geotagged/thumbs/44914005.jpg" width=240 height=173><img src="https://s3-us-west-1.amazonaws.com/inlivingcolor/geotagged/thumbs/15709149629.jpg" width=180 height=240><img src="https://s3-us-west-1.amazonaws.com/inlivingcolor/geotagged/thumbs/107959161.jpg" width=240 height=180><img src="https://s3-us-west-1.amazonaws.com/inlivingcolor/geotagged/thumbs/113593059.jpg" width=240 height=180><img src="https://s3-us-west-1.amazonaws.com/inlivingcolor/geotagged/thumbs/107963314.jpg" width=240 height=180><img src="https://s3-us-west-1.amazonaws.com/inlivingcolor/geotagged/thumbs/107960093.jpg" width=240 height=180><img src="https://s3-us-west-1.amazonaws.com/inlivingcolor/geotagged/thumbs/107959382.jpg" width=240 height=180><img src="https://s3-us-west-1.amazonaws.com/inlivingcolor/geotagged/thumbs/107963612.jpg" width=240 height=180><img src="https://s3-us-west-1.amazonaws.com/inlivingcolor/geotagged/thumbs/17850298489.jpg" width=300 height=450><img src="https://s3-us-west-1.amazonaws.com/inlivingcolor/geotagged/thumbs/58462981.jpg" width=240 height=160><img src="https://s3-us-west-1.amazonaws.com/inlivingcolor/geotagged/thumbs/15953757744.jpg" width=240 height=159><img src="https://s3-us-west-1.amazonaws.com/inlivingcolor/geotagged/thumbs/107959595.jpg" width=240 height=180><img src="https://s3-us-west-1.amazonaws.com/inlivingcolor/geotagged/thumbs/107964119.jpg" width=180 height=240><img src="https://s3-us-west-1.amazonaws.com/inlivingcolor/geotagged/thumbs/16459436741.jpg" width=180 height=240><img src="https://s3-us-west-1.amazonaws.com/inlivingcolor/geotagged/thumbs/15814605036.jpg" width=240 height=160><img src="https://s3-us-west-1.amazonaws.com/inlivingcolor/geotagged/thumbs/17858369490.jpg" width=300 height=225><img src="https://s3-us-west-1.amazonaws.com/inlivingcolor/geotagged/thumbs/17833449566.jpg" width=300 height=225><img src="https://s3-us-west-1.amazonaws.com/inlivingcolor/geotagged/thumbs/16692166209.jpg" width=240 height=192><img src="https://s3-us-west-1.amazonaws.com/inlivingcolor/geotagged/thumbs/1001004944.jpg" width=240 height=180><img src="https://s3-us-west-1.amazonaws.com/inlivingcolor/geotagged/thumbs/43979324.jpg" width=240 height=180><img src="https://s3-us-west-1.amazonaws.com/inlivingcolor/geotagged/thumbs/45296744.jpg" width=240 height=160><img src="https://s3-us-west-1.amazonaws.com/inlivingcolor/geotagged/thumbs/64476694.jpg" width=201 height=240><img src="https://s3-us-west-1.amazonaws.com/inlivingcolor/geotagged/thumbs/16481607624.jpg" width=240 height=150><img src="https://s3-us-west-1.amazonaws.com/inlivingcolor/geotagged/thumbs/107958871.jpg" width=240 height=180><img src="https://s3-us-west-1.amazonaws.com/inlivingcolor/geotagged/thumbs/107965225.jpg" width=240 height=180><img src="https://s3-us-west-1.amazonaws.com/inlivingcolor/geotagged/thumbs/18118298355.jpg" width=240 height=160><img src="https://s3-us-west-1.amazonaws.com/inlivingcolor/geotagged/thumbs/17410380393.jpg" width=300 height=199><img src="https://s3-us-west-1.amazonaws.com/inlivingcolor/geotagged/thumbs/18009913316.jpg" width=300 height=199><img src="https://s3-us-west-1.amazonaws.com/inlivingcolor/geotagged/thumbs/107963451.jpg" width=240 height=180><img src="https://s3-us-west-1.amazonaws.com/inlivingcolor/geotagged/thumbs/16852339830.jpg" width=211 height=240><img src="https://s3-us-west-1.amazonaws.com/inlivingcolor/geotagged/thumbs/107963970.jpg" width=180 height=240><img src="https://s3-us-west-1.amazonaws.com/inlivingcolor/geotagged/thumbs/17317503015.jpg" width=240 height=180><img src="https://s3-us-west-1.amazonaws.com/inlivingcolor/geotagged/thumbs/17786026702.jpg" width=300 height=189><img src="https://s3-us-west-1.amazonaws.com/inlivingcolor/geotagged/thumbs/56811699.jpg" width=240 height=180><img src="https://s3-us-west-1.amazonaws.com/inlivingcolor/geotagged/thumbs/31824870.jpg" width=240 height=157><img src="https://s3-us-west-1.amazonaws.com/inlivingcolor/geotagged/thumbs/16815373068.jpg" width=240 height=160><img src="https://s3-us-west-1.amazonaws.com/inlivingcolor/geotagged/thumbs/16819702823.jpg" width=240 height=240><img src="https://s3-us-west-1.amazonaws.com/inlivingcolor/geotagged/thumbs/16895949740.jpg" width=180 height=240><img src="https://s3-us-west-1.amazonaws.com/inlivingcolor/geotagged/thumbs/16772874186.jpg" width=240 height=240><img src="https://s3-us-west-1.amazonaws.com/inlivingcolor/geotagged/thumbs/42154182.jpg" width=240 height=160><img src="https://s3-us-west-1.amazonaws.com/inlivingcolor/geotagged/thumbs/58333251.jpg" width=240 height=180><img src="https://s3-us-west-1.amazonaws.com/inlivingcolor/geotagged/thumbs/15890451589.jpg" width=180 height=240><img src="https://s3-us-west-1.amazonaws.com/inlivingcolor/geotagged/thumbs/62384759.jpg" width=240 height=180><img src="https://s3-us-west-1.amazonaws.com/inlivingcolor/geotagged/thumbs/15094551753.jpg" width=240 height=160><img src="https://s3-us-west-1.amazonaws.com/inlivingcolor/geotagged/thumbs/16380115239.jpg" width=240 height=159><img src="https://s3-us-west-1.amazonaws.com/inlivingcolor/geotagged/thumbs/44518932.jpg" width=240 height=180><img src="https://s3-us-west-1.amazonaws.com/inlivingcolor/geotagged/thumbs/61118385.jpg" width=240 height=180></div>
+            </section>
+        </article>
+        <div style="border-top-color: rgb(242, 239, 232); left: 6%; display: block;" class="post-after"></div>
+    </div>
+
+
+    <div style="color: white; background: rgb(0, 153, 204);" class="post-holder">
+
+            <article item_index="2" class="post" url="/colormap/">
+
+            <header class="post-header">
+
+                <h2 class="post-title">ColorMap</h2>
+
+            </header>
+            <section class="post-content">
+                <div id="container" style="height: 520px; min-width: 310px; width: 800px; margin: 0 auto; text-align:center; line-height: 520px">
+                    Downloading map...
+                </div>
+
+            </section>
+        </article>
+        <div style="border-top-color: rgb(0, 153, 204); display: block;" class="post-after"></div>
+    </div>
+<!--
+
+    <div class="post-holder">
+
+            <article item_index="3" class="post" url="/colortrends/">
+
+            <header class="post-header">
+
+                <h2 class="post-title">ColorTrends</h2>
+
+            </header>
+            <section class="post-content">
+
+            <blockquote>
+            Under Construction
+            </blockquote>
+
+            </section>
+        </article>
+        <div style="border-top-color: rgb(242, 239, 232); left: 6%; display: none;" class="post-after"></div>
+    </div>
+
+
+    <div style="color: white; background: rgb(0, 153, 204);" class="post-holder">
+
+            <article item_index="4" class="post" url="/colorfun/">
+
+            <header class="post-header">
+
+                <h2 class="post-title">ColorFun</h2>
+
+            </header>
+            <section class="post-content">
+                Under Construction
+            </section>
+        </article>
+        <div style="border-top-color: rgb(0, 153, 204);" class="post-after"></div>
+    </div>
+
+
+    <div class="post-holder">
+
+            <article item_index="5" class="post" url="/aboutinlivingcolor/">
+
+            <header class="post-header">
+
+                <h2 class="post-title">About InLivingColor</h2>
+
+            </header>
+            <section class="post-content">
+                Under Construction
+            </section>
+
+            </article>
+        <div style="border-top-color: rgb(242, 239, 232); left: 6%;" class="post-after"></div>
+    </div>
+
+
+
+    <div style="color: white; background: rgb(0, 153, 204);" class="post-holder">
+
+            <article item_index="6" class="post" url="/aboutme/">
+
+            <header class="post-header">
+
+                <h2 class="post-title">About Me</h2>
+
+            </header>
+            <section class="post-content">
+                Under Construction
+            </section>
+        </article>
+        <div style="border-top-color: rgb(0, 153, 204);" class="post-after"></div>
+    </div>
+ -->
+
+
+</main>
+
+    <footer class="site-footer">
+        <div class="inner">
+            "You can do what you wanna do."
+        </div>
+    </footer>
+
+<script type="text/javascript">
+
+$('.Collage').removeWhitespace().collagePlus(
+    {
+        // change this to adjust the height of the rows
+        'targetHeight' : 100,
+        // change this to try different effects
+        // valid effets = effect-1 to effect-6
+        // 'effect' : "effect-5"
+    }
+);
+
+var loadTimer = null;
+
+var RGB01Change = function() {
+    $('#RGB01').css('background', 'rgb('+r01.getValue()+','+g01.getValue()+','+b01.getValue()+')');
+    loadthisurl = "/colorsearch/("+r01.getValue()+","+g01.getValue()+","+b01.getValue()+","+p01.getValue()+")("+r02.getValue()+","+g02.getValue()+","+b02.getValue()+","+p02.getValue()+")("+r03.getValue()+","+g03.getValue()+","+b03.getValue()+","+p03.getValue()+")/40";
+
+
+    if (loadTimer) clearTimeout(loadTimer);
+    loadTimer = setTimeout(function() {$('.Collage .Image_Wrapper').css("opacity", 0); $('.Collage').load(loadthisurl);} , 500);
+
+
+// $('.Collage').removeWhitespace().collagePlus(
+//     {
+//         'targetHeight' : 100,
+//     }
+// );
+
+
+};
+
+var loadthisurl = "";
+
+var r01 = $('#R01').slider()
+        .on('slide', RGB01Change)
+        .data('slider');
+var g01 = $('#G01').slider()
+        .on('slide', RGB01Change)
+        .data('slider');
+var b01 = $('#B01').slider()
+        .on('slide', RGB01Change)
+        .data('slider');
+var p01 = $('#P01').slider()
+        .on('slide', RGB01Change)
+        .data('slider');
+
+
+
+var RGB02Change = function() {
+    $('#RGB02').css('background', 'rgb('+r02.getValue()+','+g02.getValue()+','+b02.getValue()+')');
+    loadthisurl = "/colorsearch/("+r01.getValue()+","+g01.getValue()+","+b01.getValue()+","+p01.getValue()+")("+r02.getValue()+","+g02.getValue()+","+b02.getValue()+","+p02.getValue()+")("+r03.getValue()+","+g03.getValue()+","+b03.getValue()+","+p03.getValue()+")/40";
+    // $('.Collage .Image_Wrapper').css("opacity", 0);
+    // $('.Collage').load(loadthisurl);
+
+    if (loadTimer) clearTimeout(loadTimer);
+    loadTimer = setTimeout(function() {$('.Collage .Image_Wrapper').css("opacity", 0); $('.Collage').load(loadthisurl);} , 500);
+        // var resizeTimer = null;
+        // // hide all the images until we resize them
+        // $('.Collage .Image_Wrapper').css("opacity", 0);
+        // // set a timer to re-apply the plugin
+        // if (resizeTimer) clearTimeout(resizeTimer);
+        // resizeTimer = setTimeout(collage, 500);
+
+};
+
+var r02 = $('#R02').slider()
+        .on('slide', RGB02Change)
+        .data('slider');
+var g02 = $('#G02').slider()
+        .on('slide', RGB02Change)
+        .data('slider');
+var b02 = $('#B02').slider()
+        .on('slide', RGB02Change)
+        .data('slider');
+var p02 = $('#P02').slider()
+        .on('slide', RGB02Change)
+        .data('slider');
+
+var RGB03Change = function() {
+    $('#RGB03').css('background', 'rgb('+r03.getValue()+','+g03.getValue()+','+b03.getValue()+')');
+    loadthisurl = "/colorsearch/("+r01.getValue()+","+g01.getValue()+","+b01.getValue()+","+p01.getValue()+")("+r02.getValue()+","+g02.getValue()+","+b02.getValue()+","+p02.getValue()+")("+r03.getValue()+","+g03.getValue()+","+b03.getValue()+","+p03.getValue()+")/40";
+    // $('.Collage .Image_Wrapper').css("opacity", 0);
+
+    // $('.Collage').load(loadthisurl);
+
+
+    if (loadTimer) clearTimeout(loadTimer);
+    loadTimer = setTimeout(function() {$('.Collage .Image_Wrapper').css("opacity", 0); $('.Collage').load(loadthisurl);} , 500);
+        // var resizeTimer = null;
+        // // hide all the images until we resize them
+        // $('.Collage .Image_Wrapper').css("opacity", 0);
+        // // set a timer to re-apply the plugin
+        // if (resizeTimer) clearTimeout(resizeTimer);
+        // resizeTimer = setTimeout(collage, 500);
+
+};
+
+var r03 = $('#R03').slider()
+        .on('slide', RGB03Change)
+        .data('slider');
+var g03 = $('#G03').slider()
+        .on('slide', RGB03Change)
+        .data('slider');
+var b03 = $('#B03').slider()
+        .on('slide', RGB03Change)
+        .data('slider');
+var p03 = $('#P03').slider()
+        .on('slide', RGB03Change)
+        .data('slider');
+
+</script>
+
+</body></html>
