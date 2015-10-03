@@ -107,6 +107,71 @@ def moviesearch():
                         output += "".join('<a><img src="' + str(val.imUrl).encode('ascii','ignore') + '" width=200 height=200 alt="' + str(val.title).encode('ascii','ignore') + '" /></a>')
         return Markup(output)
 
+@main.route("/queryuser/<user1>")
+def queryuser(user1):
+	print user1
+	user1 = int(user1)
+	stmt = "SELECT * FROM userprofile9 where uid = " + str(user1) + " ;"
+	response = session.execute(stmt)
+	finalList =  response[0].ratings
+        sortedfinallist = sorted(finalList.items(), key = lambda item: item[1], reverse=True)
+        print sortedfinallist
+        idlist = [str("'" + x[0] + "'") for x in sortedfinallist[0:8]]
+        print idlist
+        myString = ",".join(idlist)
+        print myString
+        stmt = "select * from metadata where asin in (" + myString + ")"
+        response = session.execute(stmt)
+        print response
+        #shuffle(response)
+        output = str(user1)
+        for val in response:
+                if 'gif' not in val.imurl:
+                        output += "".join('<a><img src="' + str(val.imurl).encode('ascii','ignore') + '" width=200 height=200 alt="' + str(val.title).encode('ascii','ignore') + '" /></a>')
+        return Markup(output)
+
+@main.route("/query2user/<user1>/<user2>")
+def query2user(user1,user2):
+	print user1
+	user1 = int(user1)
+	stmt = "SELECT * FROM userprofile9 where uid = " + str(user1) + " ;"
+	response = session.execute(stmt)
+	finalList =  response[0].ratings
+        sortedfinallist = sorted(finalList.items(), key = lambda item: item[1], reverse=True)
+        print sortedfinallist
+        idlist = [str("'" + x[0] + "'") for x in sortedfinallist[0:8]]
+        print idlist
+        myString = ",".join(idlist)
+        print myString
+        stmt = "select * from metadata where asin in (" + myString + ")"
+        response = session.execute(stmt)
+        print response
+        #shuffle(response)
+        output1 = str(user1)
+        for val in response:
+                if 'gif' not in val.imurl:
+                        output1 += "".join('<a><img src="' + str(val.imurl).encode('ascii','ignore') + '" width=200 height=200 alt="' + str(val.title).encode('ascii','ignore') + '" /></a>')
+	print user2
+	user2 = int(user2)
+	stmt = "SELECT * FROM userprofile9 where uid = " + str(user2) + " ;"
+	response = session.execute(stmt)
+	finalList =  response[0].ratings
+        sortedfinallist = sorted(finalList.items(), key = lambda item: item[1], reverse=True)
+        print sortedfinallist
+        idlist = [str("'" + x[0] + "'") for x in sortedfinallist[0:8]]
+        print idlist
+        myString = ",".join(idlist)
+        print myString
+        stmt = "select * from metadata where asin in (" + myString + ")"
+        response = session.execute(stmt)
+        print response
+        #shuffle(response)
+        output2 = str(user2)
+        for val in response:
+                if 'gif' not in val.imurl:
+                        output2 += "".join('<a><img src="' + str(val.imurl).encode('ascii','ignore') + '" width=200 height=200 alt="' + str(val.title).encode('ascii','ignore') + '" /></a>')
+        return Markup(output1 + '<br>' + output2)
+ 
 @main.route("/moviesearchrefresh/<user1>/<user2>/<power>")
 def moviesearchrefresh(user1, user2, power):
         #user1 = 1573033844
@@ -142,7 +207,6 @@ def moviesearchrefresh(user1, user2, power):
                 if 'gif' not in val.imUrl:
                         output += "".join('<a><img src="' + str(val.imUrl).encode('ascii','ignore') + '" width=200 height=200 alt="' + str(val.title).encode('ascii','ignore') + '" /></a>')
         return Markup(output)
- 
  
 def create_app(spark_context, dataset_path):
     global recommendation_engine 

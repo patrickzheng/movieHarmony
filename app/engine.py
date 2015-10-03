@@ -38,7 +38,7 @@ class RecommendationEngine:
         logger.info("Training the ALS model...")
         #self.model = ALS.train(self.ratings_RDD, self.rank, seed=self.seed,
         #                       iterations=self.iterations, lambda_=self.regularization_parameter)
-	self.model = MatrixFactorizationModel.load(self.sc, "s3n://patricks3db/models")
+	self.model = MatrixFactorizationModel.load(self.sc, "s3n://patricks3db/modelsComplete")
 	userFeatures = self.model.userFeatures().repartition(1)
 	#userFeatures.cache()
 	userFeatures.persist(StorageLevel.MEMORY_AND_DISK_SER)
