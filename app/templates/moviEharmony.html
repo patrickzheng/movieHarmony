@@ -121,22 +121,26 @@
                 Find good movies for two!<br>
 <table>
     <tr>
-    <td>
-	<b>User1 ID</b><input id="user1" type="text" value="7"><br>
+    <td align=center>
+	<b>User1 ID: </b><input id="user1" type="text" value="888888"><br>
+<!--
         <b>Humor</b> <input type="text" class="span2" value="" data-slider-min="0" data-slider-max="100" data-slider-step="5" data-slider-value="50" data-slider-id="RC01" id="R01" data-slider-tooltip="hide" data-slider-handle="round" /><br>
         <b>Tears</b> <input type="text" class="span2" value="" data-slider-min="0" data-slider-max="100" data-slider-step="5" data-slider-value="50" data-slider-id="GC01" id="G01" data-slider-tooltip="hide" data-slider-handle="round" /><br>
         <b>Action</b> <input type="text" class="span2" value="" data-slider-min="0" data-slider-max="100" data-slider-step="5" data-slider-value="50" data-slider-id="BC01" id="B01" data-slider-tooltip="hide" data-slider-handle="round" /><br>
         <div id="RGB01"></div>
+-->
     </td>
-    <td>
-           <b>Power</b> <input type="text" class="span2" value="" data-slider-min="10" data-slider-max="90" data-slider-step="10" data-slider-value="50" data-slider-id="PC02" id="P02" data-slider-tooltip="hide" data-slider-handle="round" />
+    <td align=center>
+           <b>Power: </b> <input type="text" class="span2" value="" data-slider-min="20" data-slider-max="80" data-slider-step="5" data-slider-value="50" data-slider-id="PC02" id="P02" data-slider-tooltip="hide" data-slider-handle="round" />
     </td>
-    <td>
-	<b>User2 ID</b><input id="user2" type="text" value="15"><br>
+    <td align=center>
+	<b>User2 ID: </b><input id="user2" type="text" value="110"><br>
+<!--
         <b>Humor</b> <input type="text" class="span2" value="" data-slider-min="0" data-slider-max="100" data-slider-step="5" data-slider-value="50" data-slider-id="RC02" id="R02" data-slider-tooltip="hide" data-slider-handle="round" /><br>
         <b>Tears</b> <input type="text" class="span2" value="" data-slider-min="0" data-slider-max="100" data-slider-step="5" data-slider-value="50" data-slider-id="GC02" id="G02" data-slider-tooltip="hide" data-slider-handle="round" /><br>
         <b>Action</b> <input type="text" class="span2" value="" data-slider-min="0" data-slider-max="100" data-slider-step="5" data-slider-value="50" data-slider-id="BC02" id="B02" data-slider-tooltip="hide" data-slider-handle="round" /><br>
         <div id="RGB02"></div>
+-->
     </td>
     </tr>
 </table>
@@ -150,7 +154,7 @@
 
     <footer class="site-footer">
         <div class="inner">
-            "I am the world's greatest."
+            "May the Force be with you."
         </div>
     </footer>
 
@@ -168,8 +172,8 @@ $('.Collage').removeWhitespace().collagePlus(
 var loadTimer = null;
 
 var RGBChange = function() {
-    $('#RGB01').css('background', 'rgb('+r01.getValue()+','+g01.getValue()+','+b01.getValue()+')');
-    $('#RGB02').css('background', 'rgb('+r02.getValue()+','+g02.getValue()+','+b02.getValue()+')');
+    //$('#RGB01').css('background', 'rgb('+r01.getValue()+','+g01.getValue()+','+b01.getValue()+')');
+    //$('#RGB02').css('background', 'rgb('+r02.getValue()+','+g02.getValue()+','+b02.getValue()+')');
     //alert("start");
     var user1 = document.getElementById("user1").value;
     //alert(user1);
@@ -191,25 +195,25 @@ var RGBChange = function() {
 
 var loadthisurl = "";
 
-var r01 = $('#R01').slider()
-        .on('slideStop', RGBChange)
-        .data('slider');
-var g01 = $('#G01').slider()
-        .on('slideStop', RGBChange)
-        .data('slider');
-var b01 = $('#B01').slider()
-        .on('slideStop', RGBChange)
-        .data('slider');
+//var r01 = $('#R01').slider()
+        //.on('slideStop', RGBChange)
+        //.data('slider');
+//var g01 = $('#G01').slider()
+        //.on('slideStop', RGBChange)
+        //.data('slider');
+//var b01 = $('#B01').slider()
+        //.on('slideStop', RGBChange)
+        //.data('slider');
 
-var r02 = $('#R02').slider()
-        .on('slideStop', RGBChange)
-        .data('slider');
-var g02 = $('#G02').slider()
-        .on('slideStop', RGBChange)
-        .data('slider');
-var b02 = $('#B02').slider()
-        .on('slideStop', RGBChange)
-        .data('slider');
+//var r02 = $('#R02').slider()
+        //.on('slideStop', RGBChange)
+        //.data('slider');
+//var g02 = $('#G02').slider()
+        //.on('slideStop', RGBChange)
+        //.data('slider');
+//var b02 = $('#B02').slider()
+        //.on('slideStop', RGBChange)
+        //.data('slider');
 var p02 = $('#P02').slider()
         .on('slideStop', RGBChange)
         .data('slider');
