@@ -81,8 +81,8 @@
             a data engineering fellow at insight data science</h2>
 
             <a class="btn" url="/moviesearch/">MovieSearch</a>
-            <a class="btn" url="/enterreview/">enterreview</a>
             <a class="btn" url="/queryuser/">queryuser</a>
+            <a class="btn" url="/enterreview/">enterreview</a>
 		<a class="btn" url="/about/">About</a>
             <div>
             <p>moviEharmony batch processed<br>
@@ -103,11 +103,10 @@
 
     <div style="display: block" class="fixed-nav">
         <a class="fn-item" url="/moviesearch/">MovieSearch</a>
-        <a class="fn-item" url="/enterreview/">enterreview</a>
         <a class="fn-item" url="/queryuser/">queryuser</a>
+        <a class="fn-item" url="/enterreview/">enterreview</a>
 	<a class="fn-item" url="/about/">About</a>
     </div>
-
     <div class="post-holder">
 
             <article item_index="1" class="post" url="/moviesearch/">
@@ -149,7 +148,117 @@
         </article>
         <div style="border-top-color: rgb(242, 239, 232); left: 6%; display: block;" class="post-after"></div>
     </div>
-<iframe src="https://docs.google.com/presentation/d/1-A-qJugSwMEH5jcRqVluHKBr8kAQCnNkOQnQCe6Hrvo/embed?start=false&loop=false&delayms=3000" frameborder="0" width="960" height="569" allowfullscreen="true" mozallowfullscreen="true" webkitallowfullscreen="true"></iframe>
+
+    <div class="post-holder">
+            <article item_index="1" class="post" url="/queryuser/">
+            <header class="post-header">
+                <h2 class="post-title">User Profile</h2>
+            </header>
+            <section class="post-content">
+                <br>
+			<b>User1 ID: </b><input id="user1profileid" type="text" value="888888">
+			<input id="submituserquery1" type="submit" value="Submit" >
+                <div class="user1movielist"></div>
+			<b>User2 ID: </b><input id="user2profileid" type="text" value="110">
+			<input id="submituserquery2" type="submit" value="Submit" >
+                <div class="user2movielist"></div>
+            </section>
+        </article>
+        <div style="border-top-color: rgb(242, 239, 232); left: 6%; display: block;" class="post-after"></div>
+    </div>
+
+
+    <div class="post-holder">
+            <article item_index="1" class="post" url="/enterreview/">
+            <header class="post-header">
+                <h2 class="post-title">Enter Review</h2>
+            </header>
+            <section class="post-content">
+		<table>
+    			<tr>
+    				<td align=center>
+                			<b>Explore by Movie ID: </b><input id="movieprofileid" type="text" value="B000003K81">
+					<input id="submitmoviequery" type="submit" value="Submit" >
+				</td>
+			</tr>
+		</table>
+                <div class="moviedetails"></div>
+		<table>
+    			<tr>
+    				<td align=center>
+					<b>User ID: </b>
+				</td>
+				<td>
+					<input id="reviewerid" type="text" value="888888"><br>
+				</td>
+			</tr>
+			<tr>
+				<td>
+					<b>Movie ID: </b>
+				</td>
+				<td>
+					<input id="asin" type="text" value="B000003K81"><br>
+				</td>
+			</tr>
+			<tr>
+				<td>
+					<b>Overall: </b>
+				</td>
+				<td>
+					<input id="overall" type="text" value="4"><br>
+				</td>
+			</tr>
+			<tr>
+				<td>
+					<b>Summary: </b>
+				</td>
+				<td>
+					<input id="summary" type="text" value="I love this movie"><br>
+				</td>
+			</tr>
+			<tr>
+				<td>
+					<b>Reivew Text: </b>
+				</td>
+				<td>
+					<input id="reviewText" type="text" value="Really interesting movie ...."><br>
+				</td>
+			</tr>
+			<tr>
+				<td>
+					<input id="submitreview" type="submit" value="Submit" >
+				</td>
+			</tr>
+		</table>
+                <div class="submitreviewstatus"></div>
+		<br>
+            </section>
+        </article>
+        <div style="border-top-color: rgb(242, 239, 232); left: 6%; display: block;" class="post-after"></div>
+    </div>
+
+
+
+    <!--div style="color: white; background: rgb(0, 153, 204);" class="post-holder"-->
+    <div class="post-holder">
+
+            <article item_index="6" class="post" url="/about/">
+
+            <header class="post-header">
+
+                <h2 class="post-title">About</h2>
+
+            </header>
+            <section class="post-content">
+                <ul>
+                <li>Find out more about the author, Patrick Zheng, at <a href="https://www.linkedin.com/in/patrickzheng" target="_blank">LinkedIn page</a>.</li>
+                <li><a href="https://docs.google.com/presentation/d/1-A-qJugSwMEH5jcRqVluHKBr8kAQCnNkOQnQCe6Hrvo/pub?start=false&loop=false&delayms=3000" target="_blank">Slideshow</a>.</li>
+                </ul>
+            </section>
+        </article>
+        <div style="border-top-color: rgb(0, 153, 204);" class="post-after"></div>
+    </div>
+
 </main>
 
     <footer class="site-footer">
@@ -218,7 +327,49 @@ var p02 = $('#P02').slider()
         .on('slideStop', RGBChange)
         .data('slider');
 
-RGBChange();
+//RGBChange();
+
+//function user1profile() {
+    //var user1 = document.getElementById("user1profileid").value;
+    //user1url = "/userquery/"+user1;
+    //loadTimer = setTimeout(function() {$('.user1movielist').load(user1url);} , 500);
+//};
+//function user2profile() {
+    //var user2 = document.getElementById("user2profileid").value;
+    //user2url = "/userquery/"+user2;
+    //loadTimer = setTimeout(function() {$('.user2movielist').load(user2url);} , 500);
+//};
+//user1profile();
+//user2profile();
+document.getElementById("submituserquery1").onclick = function () {
+	var user1 = document.getElementById("user1profileid").value;
+	user1url = "/queryuser/" + user1 ;
+	$('.user1movielist').load(user1url);
+};
+document.getElementById("submituserquery2").onclick = function () {
+	var user2 = document.getElementById("user2profileid").value;
+	user2url = "/queryuser/" + user2;
+	$('.user2movielist').load(user2url);
+};
+document.getElementById("submitmoviequery").onclick = function () {
+	var movieprofileid = document.getElementById("movieprofileid").value;
+	movieurl = "/submitmoviequery/" + movieprofileid ;
+	$('.moviedetails').load(movieurl);
+};
+document.getElementById("submitreview").onclick = function () {
+	var reviewerID = document.getElementById("reviewerid").value;
+	var asin = document.getElementById("asin").value;
+	var overall = document.getElementById("overall").value;
+	var summary = document.getElementById("summary").value;
+	var reviewText = document.getElementById("reviewText").value;
+	//alert("in");
+	summary = summary.replace(/\W+/g, "_")
+	reviewText = reviewText.replace(/\W+/g, "_")
+	movieurl = "/submitreview/" + reviewerID + "/" + asin + "/" + overall + "/" + summary + "/" + reviewText ;
+	//alert(movieurl);
+	$('.submitreviewstatus').load(movieurl);
+};
+
 
 </script>
 

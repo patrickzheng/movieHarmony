@@ -82,11 +82,40 @@ def queryuser(user1):
         response = session.execute(stmt)
         print response
         #shuffle(response)
-        output = str(user1)
+        #output = str(user1)
+        output = ""
         for val in response:
                 if 'gif' not in val.imurl:
-                        output += "".join('<a><img src="' + str(val.imurl).encode('ascii','ignore') + '" width=200 height=200 alt="' + str(val.title).encode('ascii','ignore') + '" /></a>')
+                        output += "".join('<a><img src="' + str(val.imurl).encode('ascii','ignore') + '" width=175 height=175 title="' + str(val.title).encode('ascii','ignore') + '" alt="' + str(val.title).encode('ascii','ignore') + '" /></a>')
         return Markup(output)
+
+@main.route("/submitmoviequery/<movieid>")
+def submitmoviequery(movieid):
+	print movieid
+	stmt = "SELECT * FROM metadata where asin = '" + str(movieid) + "' ;"
+        response = session.execute(stmt)
+        print response
+        output = ""
+        for val in response:
+                if 'gif' not in val.imurl:
+                        output += "".join('<a><img src="' + str(val.imurl).encode('ascii','ignore') + '" width=150 height=150 title="' + str(val.title).encode('ascii','ignore') + '" alt="' + str(val.title).encode('ascii','ignore') + '" /></a>')
+        return Markup(output)
+
+@main.route("/submitreview/<reviewerID>/<asin>/<overall>/<summary>/<reviewText>")
+def submitreview(reviewerID, asin, overall, summary, reviewText):
+	print reviewerID
+	print asin
+	print overall
+	print summary
+	print reviewText
+	jsonMessage = json.dumps({"reviewerID": reviewerID, "asin": asin, "overall": float(overall), "summary": summary, "reviewText": reviewText, "helpful": None, "reviewerName": None, "reviewTime": None, "unixReviewTime": None});
+	from kafka import SimpleProducer, KafkaClient
+	# To send messages synchronously
+	kafka = KafkaClient('ec2-52-26-15-148.us-west-2.compute.amazonaws.com:9092')
+	producer = SimpleProducer(kafka)
+	producer.send_messages(b'moviereview9', bytes(jsonMessage))
+	return "Review successfully submitted."
+
 
 @main.route("/query2user/<user1>/<user2>")
 def query2user(user1,user2):
@@ -104,10 +133,11 @@ def query2user(user1,user2):
         stmt = "select * from metadata where asin in (" + myString + ")"
         response = session.execute(stmt)
         print response
-        output1 = str(user1)
+        #output1 = str(user1)
+        output1 = ""
         for val in response:
                 if 'gif' not in val.imurl:
-                        output1 += "".join('<a><img src="' + str(val.imurl).encode('ascii','ignore') + '" width=200 height=200 alt="' + str(val.title).encode('ascii','ignore') + '" /></a>')
+                        output1 += "".join('<a><img src="' + str(val.imurl).encode('ascii','ignore') + '" width=200 height=200 title="' + str(val.title).encode('ascii','ignore') + '" alt="' + str(val.title).encode('ascii','ignore') + '" /></a>')
 	print user2
 	user2 = int(user2)
 	stmt = "SELECT * FROM userprofile9 where uid = " + str(user2) + " ;"
@@ -122,10 +152,11 @@ def query2user(user1,user2):
         stmt = "select * from metadata where asin in (" + myString + ")"
         response = session.execute(stmt)
         print response
-        output2 = str(user2)
+        #output2 = str(user2)
+        output2 = ""
         for val in response:
                 if 'gif' not in val.imurl:
-                        output2 += "".join('<a><img src="' + str(val.imurl).encode('ascii','ignore') + '" width=200 height=200 alt="' + str(val.title).encode('ascii','ignore') + '" /></a>')
+                        output2 += "".join('<a><img src="' + str(val.imurl).encode('ascii','ignore') + '" width=200 height=200 title="' + str(val.title).encode('ascii','ignore') + '" alt="' + str(val.title).encode('ascii','ignore') + '" /></a>')
         return Markup(output1 + '<br>' + output2)
  
 @main.route("/moviesearchrefresh/<user1>/<user2>/<power>")
@@ -188,7 +219,8 @@ def moviesearchrefresh(user1, user2, power):
         #finalList = { myKey: (tr1[myKey] / tr1Max * (100 - power) / 100, tr2[myKey] / tr2Max * power / 100) for myKey in intersect}
         finalList = { myKey: ((tr1[myKey] - tr1Min)/ tr1Range * (100 - power) / 100, (tr2[myKey] - tr2Min) / tr2Range * power / 100) for myKey in intersect}
         #sortedfinallist = sorted(finalList.items(), key = lambda item: min(item[1][0],item[1][1])+(item[1][0]+item[1][1])/2, reverse=True)
-        sortedfinallist = sorted(finalList.items(), key = lambda item: (item[1][0] + item[1][1]) / 2, reverse=True)
+        #sortedfinallist = sorted(finalList.items(), key = lambda item: (item[1][0] + item[1][1]) / 2, reverse=True)
+        sortedfinallist = sorted(finalList.items(), key = lambda item: 0.9 * (item[1][0] + item[1][1]) / 2 + 0.1 * (1 - abs(item[1][0] - item[1][1]) ** 2) / 2, reverse=True)
         print sortedfinallist
         idlist = [str(x[0]) for x in sortedfinallist[0:8]]
         print idlist
@@ -203,7 +235,7 @@ def moviesearchrefresh(user1, user2, power):
         #output = str(user1) + " " + str(user2) 
         for val in response:
                 if 'gif' not in val.imurl:
-                        output += "".join('<a><img src="' + str(val.imurl).encode('ascii','ignore') + '" width=200 height=200 alt="' + str(val.title).encode('ascii','ignore') + '" /></a>')
+                        output += "".join('<a><img src="' + str(val.imurl).encode('ascii','ignore') + '" width=200 height=200 title="' + str(val.title).encode('ascii','ignore') + '" alt="' + str(val.title).encode('ascii','ignore') + '" /></a>')
         return Markup(output)
  
 def create_app(spark_context, dataset_path):
