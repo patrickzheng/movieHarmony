@@ -85,7 +85,7 @@ def queryuser(user1):
         #output = str(user1)
         output = ""
         for val in response:
-                if 'gif' not in val.imurl:
+                if val.imurl != None and 'gif' not in val.imurl:
                         output += "".join('<a><img src="' + str(val.imurl).encode('ascii','ignore') + '" width=175 height=175 title="' + str(val.title).encode('ascii','ignore') + '" alt="' + str(val.title).encode('ascii','ignore') + '" /></a>')
         return Markup(output)
 
@@ -97,7 +97,7 @@ def submitmoviequery(movieid):
         print response
         output = ""
         for val in response:
-                if 'gif' not in val.imurl:
+                if val.imurl != None and 'gif' not in val.imurl:
                         output += "".join('<a><img src="' + str(val.imurl).encode('ascii','ignore') + '" width=150 height=150 title="' + str(val.title).encode('ascii','ignore') + '" alt="' + str(val.title).encode('ascii','ignore') + '" /></a>')
         return Markup(output)
 
@@ -136,7 +136,7 @@ def query2user(user1,user2):
         #output1 = str(user1)
         output1 = ""
         for val in response:
-                if 'gif' not in val.imurl:
+                if val.imurl != None and 'gif' not in val.imurl:
                         output1 += "".join('<a><img src="' + str(val.imurl).encode('ascii','ignore') + '" width=200 height=200 title="' + str(val.title).encode('ascii','ignore') + '" alt="' + str(val.title).encode('ascii','ignore') + '" /></a>')
 	print user2
 	user2 = int(user2)
@@ -155,7 +155,7 @@ def query2user(user1,user2):
         #output2 = str(user2)
         output2 = ""
         for val in response:
-                if 'gif' not in val.imurl:
+                if val.imurl != None and 'gif' not in val.imurl:
                         output2 += "".join('<a><img src="' + str(val.imurl).encode('ascii','ignore') + '" width=200 height=200 title="' + str(val.title).encode('ascii','ignore') + '" alt="' + str(val.title).encode('ascii','ignore') + '" /></a>')
         return Markup(output1 + '<br>' + output2)
  
@@ -206,6 +206,12 @@ def moviesearchrefresh(user1, user2, power):
 	top_ratings2 = checkAndUpdate(user2,count)
         tr1 = dict({(row.mid,row.rating) for row in top_ratings1})
         tr2 = dict({(row.mid,row.rating) for row in top_ratings2})
+        tr1 = sorted(tr1.items(), key = lambda item: item[1], reverse=False)
+	tr1 = [(x[0][0], x[1]) for x in zip(tr1, xrange(len(tr1)))]
+        tr2 = sorted(tr2.items(), key = lambda item: item[1], reverse=False)
+	tr2 = [(x[0][0], x[1]) for x in zip(tr2, xrange(len(tr2)))]
+	tr1 = dict({x for x in tr1})
+	tr2 = dict({x for x in tr2})
         #intersect = set(tr1.keys()).intersection(set(tr2.keys()))
         intersect = set(tr1.keys()).union(set(tr2.keys()))
         tr1 = {myKey: tr1.get(myKey,0) for myKey in intersect}
@@ -217,12 +223,16 @@ def moviesearchrefresh(user1, user2, power):
 	tr1Range = tr1Max - tr1Min
 	tr2Range = tr2Max - tr2Min
         #finalList = { myKey: (tr1[myKey] / tr1Max * (100 - power) / 100, tr2[myKey] / tr2Max * power / 100) for myKey in intersect}
-        finalList = { myKey: ((tr1[myKey] - tr1Min)/ tr1Range * (100 - power) / 100, (tr2[myKey] - tr2Min) / tr2Range * power / 100) for myKey in intersect}
+        #finalList = { myKey: ((tr1[myKey] - tr1Min)/ tr1Range * (100 - power) / 100, (tr2[myKey] - tr2Min) / tr2Range * power / 100) for myKey in intersect}
+        finalList = { myKey: (float(tr1[myKey]) / tr1Max * (100 - power) / 100, float(tr2[myKey]) / tr2Max * power / 100) for myKey in intersect}
         #sortedfinallist = sorted(finalList.items(), key = lambda item: min(item[1][0],item[1][1])+(item[1][0]+item[1][1])/2, reverse=True)
         #sortedfinallist = sorted(finalList.items(), key = lambda item: (item[1][0] + item[1][1]) / 2, reverse=True)
-        sortedfinallist = sorted(finalList.items(), key = lambda item: 0.9 * (item[1][0] + item[1][1]) / 2 + 0.1 * (1 - abs(item[1][0] - item[1][1]) ** 2) / 2, reverse=True)
-        print sortedfinallist
-        idlist = [str(x[0]) for x in sortedfinallist[0:8]]
+        sortedfinallist = sorted(finalList.items(), key = lambda item: 0.95 * (item[1][0] + item[1][1]) / 2 + 0.05 * (1 - abs(item[1][0] - item[1][1]) ** 2) / 2, reverse=True)
+        #print sortedfinallist[:100]
+	sortedfinallist1 = sortedfinallist[0:20]
+	shuffle(sortedfinallist1)
+	print sortedfinallist1
+        idlist = [str(x[0]) for x in sortedfinallist1[0:8]]
         print idlist
         myString = ",".join(idlist)
         print myString
@@ -234,7 +244,8 @@ def moviesearchrefresh(user1, user2, power):
         output = ""
         #output = str(user1) + " " + str(user2) 
         for val in response:
-                if 'gif' not in val.imurl:
+                if val.imurl != None and 'gif' not in val.imurl:
+                #if 'gif' not in val.imurl:
                         output += "".join('<a><img src="' + str(val.imurl).encode('ascii','ignore') + '" width=200 height=200 title="' + str(val.title).encode('ascii','ignore') + '" alt="' + str(val.title).encode('ascii','ignore') + '" /></a>')
         return Markup(output)
  
