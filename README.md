@@ -3,6 +3,8 @@
 
 [Slideshow](https://docs.google.com/presentation/d/1-A-qJugSwMEH5jcRqVluHKBr8kAQCnNkOQnQCe6Hrvo/pub?start=false&loop=false&delayms=3000)
 
+[video](http://youtu.be/I7VbJ0PlI9I)
+
 moviEharmony.com is a data platform which can finds movies
 which 2 people may like to watch together.
 It is completely open-source and uses the following technologies:
